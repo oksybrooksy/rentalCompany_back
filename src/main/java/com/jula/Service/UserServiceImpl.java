@@ -1,26 +1,50 @@
 package com.jula.Service;
 
 import com.jula.Model.Rent;
+import com.jula.Model.Role;
 import com.jula.Model.User;
 import com.jula.Repository.RentRepo;
+import com.jula.Repository.RoleRepo;
 import com.jula.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService, UserDetailsService {
     PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepo userRepo;
 
-    public UserServiceImpl(UserRepo userRepo){
+    @Autowired
+    private final RoleRepo roleRepo;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<User> user = userRepo.findByEmail(email);
+        if(user.isEmpty()){
+            throw new UsernameNotFoundException("User not found in the database");
+        }
+
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.get().getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+        });
+
+        return new org.springframework.security.core.userdetails.User(user.get().getEmail(), user.get().getPassword(), authorities);
+    }
+
+    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo){
         this.userRepo = userRepo;
+        this.roleRepo = roleRepo;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -38,6 +62,18 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> getAllUsers() {
         return userRepo.findAll();
+    }
+
+    @Override
+    public Role saveRole(Role role) {
+        return roleRepo.save(role);
+    }
+
+    @Override
+    public void addRoleToUser(String email, String role) {
+    Optional<User> user = userRepo.findByEmail(email);
+    Role newRole = roleRepo.findByRole(role);
+    user.get().getRoles().add(newRole);
     }
 
     @Override
@@ -94,4 +130,6 @@ public class UserServiceImpl implements UserService{
 
         return users;
     }
+
+
 }

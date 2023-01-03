@@ -50,10 +50,8 @@ public class GameServiceImpl implements GameService{
 
     @Override
     public List<Game> getAllGames(int page, String name, String category) {
-//        int totalGames = ((List<Game>)gameRepo.findAll()).size();
-//        List<Game> paginated;
-        Pageable pageItems;
 
+        Pageable pageItems;
         pageItems = PageRequest.of(page, 15);
 
         int categoryId = getCategoryId(category);
@@ -62,7 +60,6 @@ public class GameServiceImpl implements GameService{
         }
 
         List<Game> gamesWithName = gameRepo.findAllByNameContaining(name);
-
         List<Game> games = new LinkedList<>();
         List<GameCategory> gameCategory = gameCategoryService.getAllCategories();
         int gameId = -1;
@@ -77,7 +74,6 @@ public class GameServiceImpl implements GameService{
 
         return games;
 
-//        return  gameRepo.findAllByNameContaining("",pageItems);
     }
 
     @Override
@@ -129,7 +125,6 @@ public class GameServiceImpl implements GameService{
         bestGames.add(maxGame);
         bestGames.add(secondGame);
         bestGames.add(thirdGame);
-
 
         return bestGames;
     }

@@ -19,7 +19,25 @@ public class Game {
     private int rent_amount;
     private String image;
     private String description;
+    private boolean is_from_user;
+    private int user_id;
 
+
+    public boolean isIs_from_user() {
+        return is_from_user;
+    }
+
+    public void setIs_from_user(boolean is_from_user) {
+        this.is_from_user = is_from_user;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 
     public Game() {
     }
@@ -39,8 +57,6 @@ public class Game {
     public void setName(String name) {
         this.name = name;
     }
-
-
 
     public int getProducer_id() {
         return producer_id;
@@ -106,7 +122,9 @@ public class Game {
         this.description = description;
     }
 
-    public Game(int id, String name, int producer_id, int time, int min_players, int max_players, int amount, int rent_amount, String image, String description) {
+    public Game(int id, String name, int producer_id, int time, int min_players, int max_players, int amount, int rent_amount, String image, String description
+            , boolean is_from_user, int user_id
+    ) {
         this.id = id;
         this.name = name;
         this.producer_id = producer_id;
@@ -117,5 +135,7 @@ public class Game {
         this.rent_amount = rent_amount;
         this.image = image;
         this.description = description;
+        this.is_from_user = is_from_user;
+        this.user_id = user_id;
     }
 }
