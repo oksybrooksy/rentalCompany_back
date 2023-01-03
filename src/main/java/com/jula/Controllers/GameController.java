@@ -75,6 +75,7 @@ public class GameController {
     @PostMapping("/addGame")
     public String add(@RequestBody Game game){
         game.setRent_amount(0);
+
         gameService.saveGame(game);
         return "new game added";
     }

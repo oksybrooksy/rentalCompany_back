@@ -1,6 +1,10 @@
 package com.jula.Model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name="users")
@@ -15,6 +19,9 @@ public class User {
     private int phone_number;
     private String email;
     private int role_id;
+
+    @ManyToMany(fetch = EAGER)
+    private Collection<Role> roles = new ArrayList<>();
 
     public User() {
     }
@@ -83,5 +90,13 @@ public class User {
 
     public void setRole_id(int role_id) {
         this.role_id = role_id;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 }
