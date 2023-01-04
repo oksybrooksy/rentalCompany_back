@@ -19,7 +19,7 @@ import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepo userRepo;
