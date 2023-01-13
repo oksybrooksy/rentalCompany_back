@@ -20,7 +20,7 @@ public class User {
     private String email;
     private int role_id;
 
-    @ManyToMany(fetch = EAGER)
+    @OneToMany(fetch = EAGER, mappedBy = "user")
     private Collection<Role> roles = new ArrayList<>();
 
     public User() {
