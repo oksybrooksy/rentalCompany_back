@@ -33,7 +33,6 @@ public class RentServiceImpl implements RentService{
     @Override
     public void deleteRent(int id) {
         rentRepo.deleteById(id);
-
     }
 
     @Override
@@ -43,6 +42,20 @@ public class RentServiceImpl implements RentService{
         ) {
             if(rent.getId()==id && rent.getStatus_id()==1){
                 rent.setStatus_id(2);
+                rentRepo.save(rent);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void acceptRentedRent(int id) {
+        List<Rent> rents = (List<Rent>) rentRepo.findAll();
+        for (Rent rent:rents
+        ) {
+            if(rent.getId()==id && rent.getStatus_id()==2){
+                rent.setStatus_id(4);
+                rent.setReturn_date(Date.valueOf(LocalDate.now()));
                 rentRepo.save(rent);
                 return;
             }

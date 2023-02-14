@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +45,8 @@ public class RentController {
         return rentService.getAllRents();
     }
 
+
+
     @CrossOrigin(origins="http://localhost:3000")
     @PostMapping("/getUserRent")
     public List<Rent> getUserRents(@RequestBody IdBody id){
@@ -61,6 +64,11 @@ public class RentController {
     @PutMapping("/acceptRent")
     public void acceptRent(@RequestBody IdBody id){
         rentService.acceptRent(id.getId());
+    }
+
+    @PutMapping("/acceptRentedRent")
+    public void acceptRentedRent(@RequestBody IdBody id){
+        rentService.acceptRentedRent(id.getId());
     }
 
     @CrossOrigin(origins="http://localhost:3000")
@@ -130,4 +138,47 @@ public class RentController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
+    @GetMapping("/getAllRentsRented")
+    public List<Rent> getAllRentsRented(){
+
+        List<Rent> allRents = (List<Rent>) rentRepo.findAll();
+        List <Rent> rents = new LinkedList<>();
+        for(Rent rent : allRents){
+            if(rent.getStatus_id()== 2 ){
+                rents.add(rent);
+            }
+        }
+
+        return rents;
+    }
+
+    @GetMapping("/getAllRentsToAccept")
+    public List<Rent> getAllRentsToAccept(){
+
+        List<Rent> allRents = (List<Rent>) rentRepo.findAll();
+        List <Rent> rents = new LinkedList<>();
+        for(Rent rent : allRents){
+            if(rent.getStatus_id()== 1 ){
+                rents.add(rent);
+            }
+        }
+
+        return rents;
+    }
+
+    @GetMapping("/getAllArchieveRents")
+    public List<Rent> getAllArchieveRents(){
+        List<Rent> allRents = (List<Rent>) rentRepo.findAll();
+        List <Rent> rents = new LinkedList<>();
+        for(Rent rent : allRents){
+            if(rent.getStatus_id()== 4 ){
+                rents.add(rent);
+            }
+        }
+
+        return rents;
+    }
+
 }
+
+

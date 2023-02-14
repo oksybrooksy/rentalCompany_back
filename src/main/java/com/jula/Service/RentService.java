@@ -10,6 +10,8 @@ public interface RentService {
     public void deleteRent(int id);
 
     public void acceptRent(int id);
+    public void acceptRentedRent(int id);
+
 
     public void cancelRent(int id);
     public Rent userCancelRent(int id);
