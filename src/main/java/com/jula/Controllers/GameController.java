@@ -19,6 +19,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/api")
 //@EnableSwagger2
 public class GameController {
 
@@ -71,11 +72,10 @@ public class GameController {
         gameService.delete(id.getId());
         return "ok";
     }
-//    @CrossOrigin(origins="http://localhost:3000")
+
     @PostMapping("/addGame")
     public String add(@RequestBody Game game){
         game.setRent_amount(0);
-
         gameService.saveGame(game);
         return "new game added";
     }

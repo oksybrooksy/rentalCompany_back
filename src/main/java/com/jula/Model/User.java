@@ -20,8 +20,8 @@ public class User {
     private String email;
     private int role_id;
 
-    @OneToMany(fetch = EAGER, mappedBy = "user")
-    private Collection<Role> roles = new ArrayList<>();
+  //  @OneToMany(fetch = EAGER, mappedBy = "user")
+  //  private Collection<Role> roles = new ArrayList<>();
 
     public User() {
     }
@@ -92,11 +92,11 @@ public class User {
         this.role_id = role_id;
     }
 
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
+ //   public Collection<Role> getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(Collection<Role> roles) {
+//        this.roles = roles;
+//    }
 }

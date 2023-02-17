@@ -35,9 +35,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.get().getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getRole()));
-        });
+        if(user.get().getRole_id() == 1){
+            authorities.add(new SimpleGrantedAuthority("uzytkownik"));
+        }
+        else if(user.get().getRole_id() == 2){
+            authorities.add(new SimpleGrantedAuthority("pracownik"));
+        }
+        else if(user.get().getRole_id() == 3){
+            authorities.add(new SimpleGrantedAuthority("administrator"));
+        }
+//        user.get().getRoles().forEach(role -> {
+//            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+//        });
 
         return new org.springframework.security.core.userdetails.User(user.get().getEmail(), user.get().getPassword(), authorities);
     }
@@ -73,7 +82,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void addRoleToUser(String email, String role) {
     Optional<User> user = userRepo.findByEmail(email);
     Role newRole = roleRepo.findByRole(role);
-    user.get().getRoles().add(newRole);
+  //  user.get().getRoles().add(newRole);
     }
 
     @Override
@@ -129,6 +138,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         return users;
+    }
+
+    @Override
+    public User getUser(String username) {
+        return userRepo.findByEmail(username).get();
     }
 
 
