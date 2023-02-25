@@ -1,10 +1,6 @@
 package com.jula.Model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-
-import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name="users")
@@ -20,8 +16,22 @@ public class User {
     private String email;
     private int role_id;
 
-    @ManyToMany(fetch = EAGER)
-    private Collection<Role> roles = new ArrayList<>();
+    public User(int rentsAmount) {
+        this.rents_amount = rentsAmount;
+    }
+
+    public int getRents_amount() {
+        return rents_amount;
+    }
+
+    public void setRents_amount(int rentsAmount) {
+        this.rents_amount = rentsAmount;
+    }
+
+    private int rents_amount;
+
+  //  @OneToMany(fetch = EAGER, mappedBy = "user")
+  //  private Collection<Role> roles = new ArrayList<>();
 
     public User() {
     }
@@ -92,11 +102,11 @@ public class User {
         this.role_id = role_id;
     }
 
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
+ //   public Collection<Role> getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(Collection<Role> roles) {
+//        this.roles = roles;
+//    }
 }

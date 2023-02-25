@@ -21,4 +21,6 @@ public interface UserService {
     public User findUserEmail(String email);
 
     List<User> getFilteredUsers(String name, int role);
+
+    User getUser(String username);
 }

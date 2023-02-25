@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GameServiceImpl implements GameService{
@@ -30,8 +29,8 @@ public class GameServiceImpl implements GameService{
     private GameCategoryService gameCategoryService;
 
     @Override
-    public Game saveGame(Game game) {
-        return gameRepo.save(game);
+    public void saveGame(Game game) {
+        gameRepo.save(game);
     }
 
     private int getCategoryId(String category){
