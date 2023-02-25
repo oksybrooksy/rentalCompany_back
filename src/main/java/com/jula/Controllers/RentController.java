@@ -53,6 +53,11 @@ public class RentController {
         return rentService.getUserRents(id.getId());
     }
 
+    @PostMapping("/getUserArchieveRent")
+    public List<Rent> getUserArchieveRent(@RequestBody IdBody id){
+        return rentService.getUserArchieveRents(id.getId());
+    }
+
     @DeleteMapping("/deleteRent")
     public String deleteRent(@RequestBody IdBody id){
         rentService.deleteRent(id.getId());
@@ -77,23 +82,6 @@ public class RentController {
         rentService.cancelRent(id.getId());
     }
 
-    //    @CrossOrigin(origins="http://localhost:3000")
-//    @PutMapping("/userCancelRent")
-//    public void cancelRentByUser(@RequestBody IdBody id){
-//        rentService.userCancelRent(id.getId());
-//    }
-
-
-//    @PostMapping("/addRent")
-//    public String add(@RequestBody Rent rent){
-//        rentService.saveRent(rent);
-//        rent.setUser_id(52);
-//        rent.setGame_id(3);
-//        rent.setRental_date(Date.valueOf(LocalDate.now()));
-//        rent.setReturn_date(Date.valueOf(LocalDate.now().plusMonths(1)));
-//        rent.setStatus_id(1);
-//        return "new rent added";
-//    }
 
     @Autowired
     ObjectMapper objectMapper;
@@ -107,6 +95,10 @@ public class RentController {
         if(userFromDb.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+        if (userFromDb.get().getRents_amount() >= 3){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        userFromDb.get().setRents_amount(userFromDb.get().getRents_amount() + 1);
         Rent rent = new Rent();
         rent.setUser_id(userFromDb.get().getId());
         rent.setGame_id(graId);

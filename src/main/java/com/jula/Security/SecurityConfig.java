@@ -44,14 +44,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/login", "/api/token/refresh/**").permitAll();
-      //  http.authorizeRequests().antMatchers("/**").permitAll();
-       // http.authorizeRequests().antMatchers("/api/**").permitAll();
-    //    http.authorizeRequests().antMatchers(GET, "api/user/**").hasAnyAuthority("uzytkownik");
-        http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("uzytkownik");
-        http.authorizeRequests().antMatchers(GET, "/api/admin/**").hasAnyAuthority("administrator");
+        http.authorizeRequests().antMatchers("/**").permitAll();
+        http.authorizeRequests().antMatchers(GET, "/api/**").permitAll();
+     //   http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("uzytkownik");
+     //   http.authorizeRequests().antMatchers(GET, "/api/emp/**").hasAnyAuthority("pracownik");
+     //   http.authorizeRequests().antMatchers(GET, "/api/admin/**").hasAnyAuthority("administrator");
         http.authorizeRequests().anyRequest().authenticated();
-//        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-//        customAuthenticationFilter.setFilterProcessesUrl("/login");
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
         http.addFilterBefore(new CustomAuthorizationFilter(),  UsernamePasswordAuthenticationFilter.class);
     }

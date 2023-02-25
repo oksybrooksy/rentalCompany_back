@@ -16,4 +16,5 @@ public interface RentService {
     public void cancelRent(int id);
     public Rent userCancelRent(int id);
     List<Rent> getUserRents(int id);
+    List<Rent> getUserArchieveRents(int id);
 }

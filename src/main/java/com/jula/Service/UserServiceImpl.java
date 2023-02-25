@@ -64,6 +64,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User saveUser(User user, int role) {
         String encodedPassword =  this.passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        user.setRents_amount(0);
         user.setRole_id(role);
         return userRepo.save(user);
     }
